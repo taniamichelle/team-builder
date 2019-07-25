@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 
-
-function Form() {
-    const [memberState, setMemberState] = useState({
+const Form = (props) => {
+    console.log(props);
+    // alternative to below: const setPeople = props.setPeople; 
+    const { setPeople } = props;
+    //define initial state; what gets typed in text boxes is memberState
+    const [person, setPerson] = useState({
         name: '',
         email: '',
         role: ''
     });
+    //use a fxn to toggle our state into diff states of our component
     const changeHandler = (event) => {
-        setMemberState({ ...memberState, [event.target.name]: event.target.value })
+        setPerson({ ...person, [event.target.name]: event.target.value });
         // console.log('user', changeHandler, event.target)
     }
-    const submitHandler = (event) => {
-        event.preventDefault()
-    }
-
+    const submitHandler = event => {
+        event.preventDefault();
+        //console.log(person);
+        setPeople(people => [...people, person]);
+        setPerson({ name: '', email: '', role: '' });
+    };
     return (
         <div className="Form">
             <form onSubmit={submitHandler}>
@@ -23,11 +29,11 @@ function Form() {
                     <div className='nameField'>
                         <label>
                             Name
-            <input
+                            <input
                                 name='name'
                                 type='text'
                                 placeholder='Enter name'
-                                value={memberState.name}
+                                value={person.name}
                                 onChange={changeHandler}
                             />
                         </label>
@@ -35,11 +41,11 @@ function Form() {
                     <div className='emailField'>
                         <label>
                             Email
-            <input
+                            <input
                                 name='email'
                                 type='text'
                                 placeholder='Enter email'
-                                value={memberState.email}
+                                value={person.email}
                                 onChange={changeHandler}
                             />
                         </label>
@@ -47,16 +53,16 @@ function Form() {
                     <div className='roleField'>
                         <label>
                             Role
-            <input
+                            <input
                                 name='role'
                                 type='text'
                                 placeholder='Enter role'
-                                value={memberState.role}
+                                value={person.role}
                                 onChange={changeHandler}
                             />
                         </label>
                     </div>
-                    <button className='submitButton'>Submit</button>
+                    <button className='submitButton'>Add Person</button>
                 </fieldset>
             </form>
         </div>
@@ -64,3 +70,4 @@ function Form() {
 }
 
 export default Form;
+
